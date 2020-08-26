@@ -11,6 +11,7 @@ import com.guli.service.edu.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,8 @@ import java.util.List;
  * @since 2020-08-25
  */
 
+@CrossOrigin // 允许跨域请求策略
+@Slf4j
 @Api(tags = "讲师管理") // @Api 写在类头上
 @RestController
 @RequestMapping("/admin/edu/teacher")
@@ -97,7 +100,7 @@ public class TeacherController {
     }
 
     @ApiOperation("根据ID查询讲师")
-    @GetMapping("get")
+    @GetMapping("get/{id}")
     public R getById(
             @ApiParam(value = "查询讲师",required = true)@PathVariable String id){
         Teacher teacher = teacherService.getById(id);
