@@ -14,8 +14,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("insertFill被执行........");
-        log.info("insertFill被执行error........");
-        log.info("insertFill被执行warn........");
+        log.error("insertFill被执行error........");
+        log.warn("insertFill被执行warn........");
         this.setFieldValByName("gmtCreate",new Date(),metaObject);
         this.setFieldValByName("gmtModified",new Date(),metaObject);
     }
