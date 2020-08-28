@@ -50,6 +50,7 @@ public class ApiTeacherController {
             @ApiParam(value = "当前页码",required = true) @PathVariable Long page,
             @ApiParam(value = "每页记录条数",required = true) @PathVariable Long limit){
 
+
         Page<Teacher> pageParam = new Page<>(page, limit);
         teacherService.page(pageParam);
         return R.ok().data("pageModel",pageParam);
