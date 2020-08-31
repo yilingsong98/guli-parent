@@ -105,7 +105,7 @@ public class TeacherController {
             @ApiParam(value = "查询讲师",required = true)@PathVariable String id){
         Teacher teacher = teacherService.getById(id);
         if (teacher != null){
-            return R.ok().data("teacher",teacher);
+            return R.ok().data("item",teacher);
         }else{
             return R.error().message("数据不存在");
         }

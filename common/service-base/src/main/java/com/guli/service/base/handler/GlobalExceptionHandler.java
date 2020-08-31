@@ -1,5 +1,6 @@
 package com.guli.service.base.handler;
 
+import com.guli.service.base.exception.GuliException;
 import com.guli.service.base.result.R;
 import com.guli.service.base.result.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -39,5 +40,12 @@ public class GlobalExceptionHandler {
     }
 
     // 自定义异常处理
+    @ResponseBody // 以json形式给前端
+    @ExceptionHandler(GuliException.class) // 此注解 可以捕获到 所有controller的异常
+    public R error(GuliException e){
+        //e.printStackTrace();
+        log.error(ExceptionUtils.getStackTrace(e));
+        return R.error().message(e.getMessage()).code(e.getCode());
 
+    }
 }

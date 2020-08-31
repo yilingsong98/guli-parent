@@ -21,6 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
+@CrossOrigin // 允许跨域请求策略
 @Api(tags = "讲师管理") // @Api 写在类头上
 @RestController
 @RequestMapping("/api/edu/teacher")
