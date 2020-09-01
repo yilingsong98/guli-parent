@@ -72,4 +72,14 @@ public class ExcelSubjectDataListener extends AnalysisEventListener<ExcelSubject
         queryWrapper.eq("parent_id",parentId); // 在相同的一级类别下
         return subjectMapper.selectOne(queryWrapper);
     }
+
+    // 如果传入 parentId = 0 则这是个一级类别
+    private Subject getSubjectTitle(String title,String parentId){
+        QueryWrapper<Subject> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("title",title);
+        // 一级类别的 父id 为0
+        queryWrapper.eq("parent_id",parentId); // 在相同的一级类别下
+        return subjectMapper.selectOne(queryWrapper);
+    }
+
 }
