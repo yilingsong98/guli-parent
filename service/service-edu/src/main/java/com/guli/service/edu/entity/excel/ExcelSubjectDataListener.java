@@ -42,12 +42,21 @@ public class ExcelSubjectDataListener extends AnalysisEventListener<ExcelSubject
             parentId = subjectLevelOneDB.getId();
         }
 
-        // 二级类别
-        Subject subjectTwoLevel = new Subject();
-        subjectTwoLevel.setParentId(parentId);
-        subjectTwoLevel.setTitle(excelSubjectData.getLevelTwoTitle());
-        subjectTwoLevel.setSort(0);
-        subjectMapper.insert(subjectTwoLevel);
+
+        // 判断二级类别是否存在
+        String levelTwoTitle = excelSubjectData.getLevelTwoTitle();
+        Subject subjectTwoLevelDB = this.getSubjectLevelTwoByTitle(levelTwoTitle,parentId);
+
+        if (subjectTwoLevelDB == null) {
+            // 二级类别
+            Subject subjectTwoLevel = new Subject();
+            subjectTwoLevel.setParentId(parentId);
+            subjectTwoLevel.setTitle(levelTwoTitle);
+            subjectTwoLevel.setSort(0);
+            subjectMapper.insert(subjectTwoLevel);
+        }
+
+
     }
 
     @Override
