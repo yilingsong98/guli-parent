@@ -5,11 +5,15 @@ import com.alibaba.excel.event.AnalysisEventListener;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.guli.service.edu.entity.Subject;
 import com.guli.service.edu.mapper.SubjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@AllArgsConstructor // 全参构造器
+@NoArgsConstructor // 无参构造器
 public class ExcelSubjectDataListener extends AnalysisEventListener<ExcelSubjectData> {
 
-    @Autowired
+    //   @Autowired
     private SubjectMapper subjectMapper;
 
     @Override
