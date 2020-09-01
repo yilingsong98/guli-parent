@@ -63,4 +63,13 @@ public class ExcelSubjectDataListener extends AnalysisEventListener<ExcelSubject
         queryWrapper.eq("parent_id","0");
         return subjectMapper.selectOne(queryWrapper);
     }
+
+    // 判断二级类别 是否存在
+    private Subject getSubjectLevelTwoByTitle(String title,String parentId){
+        QueryWrapper<Subject> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("title",title);
+        // 一级类别的 父id 为0
+        queryWrapper.eq("parent_id",parentId); // 在相同的一级类别下
+        return subjectMapper.selectOne(queryWrapper);
+    }
 }
