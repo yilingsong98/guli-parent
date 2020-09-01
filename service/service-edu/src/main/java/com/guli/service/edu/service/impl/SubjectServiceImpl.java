@@ -36,6 +36,6 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
 
     @Override
     public List<SubjectVo> nestedList() {
-        return null;
+        return baseMapper.selectNestedListByParentId("0");
     }
 }

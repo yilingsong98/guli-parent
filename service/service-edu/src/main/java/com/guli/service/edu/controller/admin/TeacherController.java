@@ -26,6 +26,7 @@ import java.util.List;
  * @since 2020-08-25
  */
 
+
 @CrossOrigin // 允许跨域请求策略
 @Slf4j
 @Api(tags = "讲师管理") // @Api 写在类头上
@@ -109,6 +110,21 @@ public class TeacherController {
         }else{
             return R.error().message("数据不存在");
         }
+    }
+
+    // 批量删除
+    @ApiOperation("根据id批量删除讲师")
+    @DeleteMapping("batchDelete")
+    public R batchDelete(
+            @ApiParam(value = "批量删除",required = true)
+            @RequestBody List<String> list){
+        int i = teacherService.deleteBatchIds(list);
+        if (i > 0) {
+            return R.ok().message("删除成功");
+        } else {
+            return R.error().message("未勾选任何数据");
+        }
+
     }
 }
 

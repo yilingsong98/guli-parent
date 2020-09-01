@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * <p>
  * 讲师 服务实现类
@@ -54,5 +56,10 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         // 执行查询返回结果
         // selectPage(参数一：查询的参数,参数二：查询的组合条件)
         return baseMapper.selectPage(pageParam,queryWrapper);
+    }
+
+    @Override
+    public int deleteBatchIds(List<String> list) {
+        return baseMapper.deleteBatchIds(list);
     }
 }

@@ -20,6 +20,10 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+  #mybatis-plus:
+  mapper-locations: classpath:com/guli/service/edu/mapper/xml/*.xml
+
+
 ## 设置日志级别
 #logging:
 #  level:

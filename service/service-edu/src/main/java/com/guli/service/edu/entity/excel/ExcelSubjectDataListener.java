@@ -32,7 +32,7 @@ public class ExcelSubjectDataListener extends AnalysisEventListener<ExcelSubject
             // 获取一级类别 并插入一级类别
             Subject subjectOneLevel = new Subject();
             subjectOneLevel.setParentId("0");
-            subjectOneLevel.setTitle(excelSubjectData.getLevelOneTitle());
+            subjectOneLevel.setTitle(levelOneTitle);
             subjectOneLevel.setSort(0);
             subjectMapper.insert(subjectOneLevel);
 

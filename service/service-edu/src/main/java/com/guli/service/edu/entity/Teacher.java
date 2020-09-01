@@ -2,6 +2,7 @@ package com.guli.service.edu.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,7 +26,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)        // 串连 实体类set的返回值变为实体类对象本身（不再是返回void）
 @TableName("edu_teacher")
 @ApiModel(value="Teacher对象", description="讲师")
-public class Teacher extends BaseEntity {
+public class Teacher extends BaseEntity{
 
     private static final long serialVersionUID=1L;
 
