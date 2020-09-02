@@ -38,5 +38,20 @@ public class CourseController {
         return R.ok().data("courseId",courseId).message("保存成功");
     }
 
+
+    @ApiOperation("根据课程id显示课程信息")
+    @GetMapping("course-info/{id}")
+    public R getById(
+            @ApiParam(value = "课程id", required = true)
+            @PathVariable String id){
+        CourseInfoForm courseInfoForm = courseService.getCourseInfoFormById(id);
+        if (courseInfoForm != null) {
+            return R.ok().data("item",courseInfoForm);
+        } else {
+            return R.error().message("数据不存在");
+        }
+
+    }
+
 }
 
