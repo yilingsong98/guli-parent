@@ -47,8 +47,23 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         return course.getId();
     }
 
+    /**
+     * 方案二： 在mapper层查询CourseInfoForm信息,效率更高
+     * @param id
+     * @return
+     */
     @Override
     public CourseInfoForm getCourseInfoFormById(String id) {
+        return baseMapper.selectCourseInfoFormById(id);
+    }
+
+
+    /**
+     * 方案一： 两个sql查询出CourseInfoForm的值
+     * @param id
+     * @return
+     */
+    public CourseInfoForm getCourseInfoFormById1(String id) {
         // 根据id查询course
         Course course = baseMapper.selectById(id);
 
