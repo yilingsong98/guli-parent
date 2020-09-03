@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.guli.service.edu.entity.query.TeacherQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,4 +28,7 @@ public interface TeacherService extends IService<Teacher> {
     IPage<Teacher> selectPage(Long page, Long limit, TeacherQuery teacherQuery);
 
     int deleteBatchIds(List<String> list);
+
+    List<Map<String, Object>> selectNameListByKey(String key);
+
 }

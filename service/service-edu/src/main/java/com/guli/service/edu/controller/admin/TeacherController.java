@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -132,5 +133,20 @@ public class TeacherController {
         }
 
     }
+
+    // 根据左关键之字 查询讲师名列表
+    @ApiOperation("根据左关键之字查询讲师名列表")
+    @GetMapping("list/name/{key}")
+    public R selectNameListByKey(@ApiParam(value = "查询关键字",required = true)
+                                 @PathVariable String key){
+
+
+        List<Map<String, Object>> nameList = teacherService.selectNameListByKey(key);
+
+        return R.ok().data("nameList", nameList);
+
+    }
+
+
 }
 
