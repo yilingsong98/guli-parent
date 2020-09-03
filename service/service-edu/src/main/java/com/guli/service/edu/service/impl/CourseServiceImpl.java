@@ -57,6 +57,30 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         return baseMapper.selectCourseInfoFormById(id);
     }
 
+    @Override
+    public boolean updateCourseInfoById(CourseInfoForm courseInfoForm) {
+        // 更新course
+        Course course = new Course();
+        // 将传入的值拷贝到course
+        BeanUtils.copyProperties(courseInfoForm,course);
+        // 根据id更新course
+        int i = baseMapper.updateById(course);
+        if (i == 0){
+            return false;
+        }
+
+        // 更新courseDescription
+        CourseDescription courseDescription = new CourseDescription();
+        courseDescription.setDescription(courseDescription.getDescription());
+        courseDescription.setId(courseInfoForm.getId());
+        int i1 = courseDescriptionMapper.updateById(courseDescription);
+        // 如果 i1 == 0 意味着没有详情信息 将详情存入
+        if (i1 == 0){
+            courseDescriptionMapper.insert(courseDescription);
+        }
+        return true;
+    }
+
 
     /**
      * 方案一： 两个sql查询出CourseInfoForm的值

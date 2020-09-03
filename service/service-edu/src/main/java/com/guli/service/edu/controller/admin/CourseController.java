@@ -53,5 +53,16 @@ public class CourseController {
 
     }
 
+    @ApiOperation("更新课程基本信息")
+    @PutMapping("update-course-info")
+    public R updateCourseInfoById(
+            @ApiParam(value = "课程基本信息", required = true)
+            @RequestBody CourseInfoForm courseInfoForm){
+
+        courseService.updateCourseInfoById(courseInfoForm);
+        return R.ok().message("修改成功");
+
+    }
+
 }
 
