@@ -3,12 +3,15 @@ package com.guli.service.edu.controller.admin;
 
 import com.guli.service.base.result.R;
 import com.guli.service.edu.entity.Chapter;
+import com.guli.service.edu.entity.vo.ChapterVo;
 import com.guli.service.edu.service.ChapterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -82,6 +85,17 @@ public class ChapterController {
         } else {
             return R.error().message("数据不存在");
         }
+    }
+
+
+    @ApiOperation("嵌套章节列表")
+    @GetMapping("nested-list/{courseId}")
+    public R nestedListByCourseId(
+            @ApiParam(value = "课程id", required =  true)
+            @PathVariable String courseId){
+
+        List<ChapterVo> chapterVoList = chapterService.nestedListById(courseId);
+        return R.ok().data("items",chapterVoList);
     }
 
 }
