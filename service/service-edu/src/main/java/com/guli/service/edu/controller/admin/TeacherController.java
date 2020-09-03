@@ -118,11 +118,17 @@ public class TeacherController {
     public R batchDelete(
             @ApiParam(value = "批量删除",required = true)
             @RequestBody List<String> list){
-        int i = teacherService.deleteBatchIds(list);
-        if (i > 0) {
+//        int i = teacherService.deleteBatchIds(list);
+//        if (i > 0) {
+//            return R.ok().message("删除成功");
+//        } else {
+//            return R.error().message("未勾选任何数据");
+//        }
+        boolean result = teacherService.removeByIds(list);
+        if(result){
             return R.ok().message("删除成功");
-        } else {
-            return R.error().message("未勾选任何数据");
+        }else{
+            return R.error().message("数据不存在");
         }
 
     }
