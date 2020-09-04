@@ -4,5 +4,5 @@ import java.io.InputStream;
 
 public interface FileService {
 
-    String upload(InputStream inputStream,String originalFileName,String module);
+     String upload(InputStream inputStream,String originalFileName,String module);
 }

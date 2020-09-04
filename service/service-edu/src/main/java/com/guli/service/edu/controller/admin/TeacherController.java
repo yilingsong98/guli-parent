@@ -70,6 +70,10 @@ public class TeacherController {
 //        Page<Teacher> pageParam = new Page<>(page, limit);
 //        teacherService.page(pageParam);
         IPage<Teacher> teacherModel = teacherService.selectPage(page, limit, teacherQuery);
+
+        // 执行查询返回结果：两条sql
+        // 1. select count() from
+        // 2. select 列 from
         return R.ok().data("pageModel",teacherModel);
     }
 

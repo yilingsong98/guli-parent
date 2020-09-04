@@ -1,16 +1,24 @@
 package com.guli.service.edu.service.impl;
 
-import com.guli.service.edu.entity.Course;
-import com.guli.service.edu.entity.CourseDescription;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.guli.service.edu.entity.*;
 import com.guli.service.edu.entity.form.CourseInfoForm;
-import com.guli.service.edu.mapper.CourseDescriptionMapper;
-import com.guli.service.edu.mapper.CourseMapper;
+import com.guli.service.edu.entity.query.CourseQuery;
+import com.guli.service.edu.entity.vo.CourseVo;
+import com.guli.service.edu.mapper.*;
 import com.guli.service.edu.service.CourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import javax.management.Query;
+import java.util.List;
 
 /**
  * <p>
@@ -25,6 +33,19 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Autowired
     private CourseDescriptionMapper courseDescriptionMapper;
+
+    @Autowired
+    private VideoMapper videoMapper;
+
+    @Autowired
+    private ChapterMapper chapterMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private CourseCollectMapper courseCollectMapper;
+
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -79,6 +100,91 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
             courseDescriptionMapper.insert(courseDescription);
         }
         return true;
+    }
+
+    @Override
+    public IPage<CourseVo> selectPage(Long page, Long limit, CourseQuery courseQuery) {
+        
+        // 组装查询条件
+        QueryWrapper<CourseVo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("publish_time");  // 组装排序条件
+
+        // 查询条件
+        String subjectId = courseQuery.getSubjectId();
+        String subjectParentId = courseQuery.getSubjectParentId();
+        String teacherId = courseQuery.getTeacherId();
+        String title = courseQuery.getTitle();
+
+        if (!StringUtils.isEmpty(subjectParentId)){
+            queryWrapper.eq("c.subject_parent_id",subjectParentId);
+        }
+
+        if (!StringUtils.isEmpty(subjectId)){
+            queryWrapper.eq("c.subjectId",subjectId);
+        }
+        if (!StringUtils.isEmpty(teacherId)){
+            queryWrapper.eq("c.teacherId",teacherId);
+        }
+        if (!StringUtils.isEmpty(title)){
+        /* c mapper里定义 c 表  但是组装条件 在业务层 多个同名列名 需要写别名 避免歧义 */
+            queryWrapper.like("c.title",title);
+        }
+
+        // Mapper查询 只能单个表
+        // mybatis plus的mapper层 可以自动识别page对象
+        // MP 可以帮我们自动组装 分页查询语句
+        // 泛型 前面写了 后面可以不写 并且 后面不写泛型效率会高一些
+        Page<CourseVo> pageParam = new Page<CourseVo>(page, limit);
+        List<CourseVo> records = baseMapper.selectPageByCourseQuery(pageParam,queryWrapper); // 自动执行查询语句
+        // 将条件records 放入 pageParam
+        pageParam.setRecords(records);  // 将records 组装到 查询语句后面
+
+        return pageParam;
+
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean removeCourseById(String id) {
+
+
+
+        // 课时 video
+        QueryWrapper<Video> videoQueryWrapper = new QueryWrapper<>();
+        videoQueryWrapper.eq("course_id",id);
+        videoMapper.delete(videoQueryWrapper);
+
+        // 章节 chapter
+        QueryWrapper<Chapter> chapterQueryWrapper = new QueryWrapper<>();
+        chapterQueryWrapper.eq("course_id",id);
+        chapterMapper.delete(chapterQueryWrapper);
+
+        // 评论 comment
+        QueryWrapper<Comment> commentQueryWrapper = new QueryWrapper<>();
+        commentQueryWrapper.eq("course_id",id);
+        commentMapper.delete(commentQueryWrapper);
+
+        // 收藏 collect
+        QueryWrapper<CourseCollect> collectQueryWrapper = new QueryWrapper<>();
+        collectQueryWrapper.eq("course_id",id);
+        courseCollectMapper.delete(collectQueryWrapper);
+
+        // 课程 course
+
+        return this.removeById(id);
+    }
+
+    @Override
+    public String getCourseStatusById(String id) {
+        String result = courseCollectMapper.getCourseStatusById(id);
+//        if ( "null".equals(result)){
+//            return null;
+//        }
+//        if ("Draft".equals(result)){
+//            return "Draft";
+//        }
+        return result;
     }
 
 

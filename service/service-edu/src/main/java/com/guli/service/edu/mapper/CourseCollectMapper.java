@@ -2,6 +2,7 @@ package com.guli.service.edu.mapper;
 
 import com.guli.service.edu.entity.CourseCollect;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author donkey
  * @since 2020-08-25
  */
+@Repository
 public interface CourseCollectMapper extends BaseMapper<CourseCollect> {
 
+    String getCourseStatusById(String id);
 }

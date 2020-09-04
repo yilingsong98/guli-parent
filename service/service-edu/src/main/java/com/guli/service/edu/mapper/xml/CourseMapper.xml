@@ -20,4 +20,34 @@
         ON c.id = cd.id
         where c.id = #{id}
     </select>
+
+
+    <select id="selectPageByCourseQuery" resultType="com.guli.service.edu.entity.vo.CourseVo">
+        SELECT
+        c.id,
+        c.title,
+        c.lesson_num AS lessonNum,
+        c.price,
+        c.cover,
+        c.buy_count AS buyCount,
+        c.view_count AS viewCount,
+        c.status,
+        c.publish_time AS publishTime,
+        t.name AS teacherName,
+        s1.title AS subjectParentTitle,
+        s2.title AS subjectTitle
+
+        FROM
+        edu_course c
+        LEFT  JOIN edu_teacher t ON c.teacher_id = t.id
+        LEFT  JOIN edu_subject s1 ON c.subject_parent_id = s1.id
+        LEFT  JOIN edu_subject s2 ON c.subject_id = s2.id
+
+
+        ${ew.customSqlSegment} /* 这是MP提供的 相当于是一个常量值 自动识别注解中的 ew参数 ew以对象形式传入 */
+
+
+    </select>
+
+
 </mapper>
