@@ -31,4 +31,6 @@ public interface TeacherService extends IService<Teacher> {
 
     List<Map<String, Object>> selectNameListByKey(String key);
 
+    boolean removerAvatarById(String id);
+
 }

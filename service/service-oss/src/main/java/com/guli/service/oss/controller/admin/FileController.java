@@ -30,11 +30,11 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @GetMapping("test")
-    public R test(){
-        String endpoint = ossProperties.getEndpoint();
-        return R.ok().data("endpoint",endpoint);
-    }
+//    @GetMapping("test")
+//    public R test(){
+//        String endpoint = ossProperties.getEndpoint();
+//        return R.ok().data("endpoint",endpoint);
+//    }
 
     @ApiOperation("文件上传")
     @PostMapping("upload")
@@ -56,4 +56,21 @@ public class FileController {
             throw new GuliException(ResultCodeEnum.FILE_UPLOAD_ERROR);
         }
     }
+
+    @ApiOperation("删除文件")
+    @DeleteMapping("remove")
+    public R removeFile(@ApiParam(value = "文件的url地址",required = true)
+                        @RequestBody String url){
+
+        fileService.removerFile(url);
+        return R.ok().message("文件删除成功");
+    }
+
+
+    @GetMapping("test-oss")
+    public R test(){
+        System.out.println("oss test is running");
+        return R.ok();
+    }
+
 }

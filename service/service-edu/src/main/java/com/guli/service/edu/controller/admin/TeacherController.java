@@ -7,6 +7,7 @@ import com.google.gson.internal.$Gson$Preconditions;
 import com.guli.service.base.result.R;
 import com.guli.service.edu.entity.Teacher;
 import com.guli.service.edu.entity.query.TeacherQuery;
+import com.guli.service.edu.fegin.OssFileService;
 import com.guli.service.edu.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,8 @@ public class TeacherController {
 
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private OssFileService ossFileService;
 
 
     @ApiOperation("获取所有讲师列表") // @ApiOperation 写在方法上
@@ -49,6 +52,13 @@ public class TeacherController {
     @ApiOperation(value = "根据ID删除讲师" , notes = "逻辑删除")
     @DeleteMapping("remove/{id}")
     public R removeById(@ApiParam("讲师ID") @PathVariable String id){
+
+        // 删除头像：根据讲师id删除oss文件
+        boolean result = teacherService.removerAvatarById(id);
+        if(!result){
+            log.warn("讲师头像删除失败，讲师id:" + id);
+        }
+
         // @ApiParam 写在参数上
         boolean b = teacherService.removeById(id);
         if(b){
@@ -151,6 +161,15 @@ public class TeacherController {
 
     }
 
+
+    @GetMapping("test-edu")
+    public R test(){
+
+        // 远程调用 test-oss 接口
+        System.out.println("test-edu is running");
+        ossFileService.test();
+        return R.ok();
+    }
 
 }
 

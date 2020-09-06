@@ -36,3 +36,8 @@ mybatis-plus:
 ribbon:
   MaxAutoRetries: 2 # 同一实例最大重试次数，不包括首次调用，默认0
   MaxAutoRetriesNextServer: 1 # 重试其他实例的最大重试次数，不包括首次所选的server，默认1 （集群状态下）
+
+#开启Feign对Sentinel的支持
+feign:
+  sentinel:
+    enabled: true
