@@ -56,12 +56,15 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public void removeVideo(String videoSourceId) throws ClientException {
+        // 创建客户端对象
         DefaultAcsClient client = AliyunVodSDKUtils.initVodClient(
                 vodProperties.getKeyId(),
                 vodProperties.getKeySecret());
 
+        // 创建请求对象
         // 视频删除类
         DeleteVideoRequest request = new DeleteVideoRequest();
+        // 设置请求参数：支持多个视频,逗号分隔
         // 传入视频源id
         request.setVideoIds(videoSourceId);
 

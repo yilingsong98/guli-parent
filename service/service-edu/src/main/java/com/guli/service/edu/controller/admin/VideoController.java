@@ -47,6 +47,9 @@ public class VideoController {
     @DeleteMapping("remove/{id}")
     public R remove(@ApiParam(value = "课时对象", required = true)
                     @PathVariable String id){
+
+        videoService.removeMediaVideoById(id);
+
         boolean result = videoService.removeById(id);
         if (result) {
             return R.ok().message("删除成功");
@@ -78,20 +81,6 @@ public class VideoController {
             return R.ok().data("item",video);
         }else{
             return R.error().message("未找到课时");
-        }
-    }
-
-
-    // 删课程视频
-    @ApiOperation("删除课程视频")
-    @DeleteMapping("removeById/{id}")
-    public R removeById(@ApiParam(value = "课时对象", required = true)
-                    @PathVariable String id){
-        boolean result = videoService.removeMediaVideoById(id);
-        if (result) {
-            return R.ok().message("删除成功");
-        } else {
-            return R.error().message("删除失败");
         }
     }
 

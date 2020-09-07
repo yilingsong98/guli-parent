@@ -25,14 +25,11 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
     private VodMediaService vodMediaService;
 
     @Override
-    public boolean removeMediaVideoById(String id) {
+    public void removeMediaVideoById(String id) {
         // 根据id找到视频
         Video video = baseMapper.selectById(id);
         if (video != null) {
             vodMediaService.removeVideo(video.getVideoSourceId());
-            return true;
-        } else {
-            return false;
         }
     }
 }
