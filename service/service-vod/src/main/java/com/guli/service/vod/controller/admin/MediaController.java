@@ -46,4 +46,20 @@ public class MediaController {
     }
 
 
+    @ApiOperation("删除视频")
+    @DeleteMapping("remove/{videoSourceId}")
+    public R removeVideo(
+            @ApiParam(value="阿里云视频id", required = true)
+            @PathVariable String videoSourceId){
+
+        try {
+            videoService.removeVideo(videoSourceId);
+            return R.ok().message("视频删除成功");
+        } catch (Exception e) {
+            log.error(ExceptionUtils.getStackTrace(e));
+            throw new GuliException(ResultCodeEnum.VIDEO_DELETE_ALIYUN_ERROR);
+        }
+    }
+
+
 }

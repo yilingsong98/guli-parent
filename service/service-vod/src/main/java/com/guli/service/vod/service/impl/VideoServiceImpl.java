@@ -3,9 +3,13 @@ package com.guli.service.vod.service.impl;
 import com.aliyun.vod.upload.impl.UploadVideoImpl;
 import com.aliyun.vod.upload.req.UploadStreamRequest;
 import com.aliyun.vod.upload.resp.UploadStreamResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
 import com.guli.service.base.exception.GuliException;
 import com.guli.service.base.result.ResultCodeEnum;
 import com.guli.service.vod.service.VideoService;
+import com.guli.service.vod.util.AliyunVodSDKUtils;
 import com.guli.service.vod.util.VodProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -48,5 +52,19 @@ public class VideoServiceImpl implements VideoService {
             throw new GuliException(ResultCodeEnum.VIDEO_UPLOAD_ALIYUN_ERROR);
         }
         return videoId;
+    }
+
+    @Override
+    public void removeVideo(String videoSourceId) throws ClientException {
+        DefaultAcsClient client = AliyunVodSDKUtils.initVodClient(
+                vodProperties.getKeyId(),
+                vodProperties.getKeySecret());
+
+        // 视频删除类
+        DeleteVideoRequest request = new DeleteVideoRequest();
+        // 传入视频源id
+        request.setVideoIds(videoSourceId);
+
+        client.getAcsResponse(request);
     }
 }
