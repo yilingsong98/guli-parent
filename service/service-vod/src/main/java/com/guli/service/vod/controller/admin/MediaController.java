@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Api(tags = "阿里云视频管理")
 @CrossOrigin
@@ -59,6 +60,16 @@ public class MediaController {
             log.error(ExceptionUtils.getStackTrace(e));
             throw new GuliException(ResultCodeEnum.VIDEO_DELETE_ALIYUN_ERROR);
         }
+    }
+
+    @ApiOperation("删除视频")
+    @DeleteMapping("remove")
+    public R removeVideoByIdList(
+            @ApiParam(value="阿里云视频id", required = true)
+            @RequestBody List<String> videoIdList) {
+
+        videoService.removeVideoByIdList(videoIdList);
+        return R.ok().message("删除视频成功");
     }
 
 

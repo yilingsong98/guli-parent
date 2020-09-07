@@ -7,6 +7,7 @@ import com.guli.service.edu.entity.form.CourseInfoForm;
 import com.guli.service.edu.entity.query.CourseQuery;
 import com.guli.service.edu.entity.vo.CourseVo;
 import com.guli.service.edu.service.CourseService;
+import com.guli.service.edu.service.VideoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,6 +30,9 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private VideoService videoService;
 
     @ApiOperation("保存课程基本信息")
     @PostMapping("save-course-info")
@@ -85,6 +89,7 @@ public class CourseController {
             @ApiParam(value = "课程id", required = true)
             @PathVariable String id){
 
+
         // 如果课程已发布 不让删除
         String res = courseService.getCourseStatusById(id);
 
@@ -95,7 +100,8 @@ public class CourseController {
             return R.error().message("课程已发布，删除失败");
         }
 
-
+        //删除视频：VOD
+        videoService.removeMediaVideoByCourseId(id);
         boolean result = courseService.removeCourseById(id);
         if (result) {
             return R.ok().message("删除成功");

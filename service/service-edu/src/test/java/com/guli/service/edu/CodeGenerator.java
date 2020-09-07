@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -89,6 +90,8 @@ public class CodeGenerator {
         // 6、执行
         mpg.execute();
     }
+
+
 
 
 }

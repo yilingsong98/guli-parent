@@ -5,6 +5,7 @@ import com.guli.service.base.result.R;
 import com.guli.service.edu.entity.Chapter;
 import com.guli.service.edu.entity.vo.ChapterVo;
 import com.guli.service.edu.service.ChapterService;
+import com.guli.service.edu.service.VideoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,6 +31,9 @@ public class ChapterController {
     @Autowired
     private ChapterService chapterService;
 
+    @Autowired
+    private VideoService videoService;
+
     @ApiOperation("新增章节")
     @PostMapping("save")
     public R save(
@@ -51,6 +55,11 @@ public class ChapterController {
     public R removeById(
             @ApiParam(value = "删除id",required = true)
             @PathVariable String id){
+
+        // 删除章节的时候 删除视频
+        videoService.removeMediaVideoByChapterId(id);
+
+
         // 分布式项目 级联 影响增删改查性能
         // 阿里规范 分布式项目 禁止使用级联 一切外键概率都在业务层解决
         boolean result = chapterService.removeChapterById(id);
