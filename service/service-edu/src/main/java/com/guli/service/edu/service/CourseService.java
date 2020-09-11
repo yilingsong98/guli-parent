@@ -5,7 +5,11 @@ import com.guli.service.edu.entity.Course;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.guli.service.edu.entity.form.CourseInfoForm;
 import com.guli.service.edu.entity.query.CourseQuery;
+import com.guli.service.edu.entity.query.WebCourseQuery;
 import com.guli.service.edu.entity.vo.CourseVo;
+import com.guli.service.edu.entity.vo.WebCourseVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -29,4 +33,9 @@ public interface CourseService extends IService<Course> {
 
     /* 通过id获取该课程状态 */
     String getCourseStatusById(String id);
+
+    List<Course> webSelectList(WebCourseQuery webCourseQuery);
+
+    WebCourseVo getWebCourseVoById(String id);
+
 }

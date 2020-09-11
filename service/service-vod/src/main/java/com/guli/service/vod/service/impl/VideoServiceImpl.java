@@ -6,6 +6,8 @@ import com.aliyun.vod.upload.resp.UploadStreamResponse;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.guli.service.base.exception.GuliException;
 import com.guli.service.base.result.ResultCodeEnum;
 import com.guli.service.vod.service.VideoService;
@@ -96,5 +98,23 @@ public class VideoServiceImpl implements VideoService {
                 idListStr.append(",");
             }
         }
+    }
+
+    @Override
+    public String getPlayAuth(String videoSourceId) throws ClientException {
+
+        // 创建客户端对象
+        DefaultAcsClient client = AliyunVodSDKUtils.initVodClient(
+                vodProperties.getKeyId(),
+                vodProperties.getKeySecret());
+
+        // 创建请求对象
+        GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+        // 设置请求参数 ：支持传入多个视频id,多个用逗号分隔
+        request.setVideoId(videoSourceId);
+        GetVideoPlayAuthResponse response = client.getAcsResponse(request);
+        // 拿到播放凭证
+        return response.getPlayAuth();
+
     }
 }

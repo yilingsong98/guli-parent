@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.guli.service.edu.entity.*;
 import com.guli.service.edu.entity.form.CourseInfoForm;
 import com.guli.service.edu.entity.query.CourseQuery;
+import com.guli.service.edu.entity.query.WebCourseQuery;
 import com.guli.service.edu.entity.vo.CourseVo;
+import com.guli.service.edu.entity.vo.WebCourseVo;
 import com.guli.service.edu.mapper.*;
 import com.guli.service.edu.service.CourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -185,6 +187,64 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 //            return "Draft";
 //        }
         return result;
+    }
+
+    @Override
+    public List<Course> webSelectList(WebCourseQuery webCourseQuery) {
+
+        // 组装查询对象
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        // 首先 选择已发布的课程
+        queryWrapper.eq("status",Course.COURSE_NORMAL);
+
+        String subjectParentId = webCourseQuery.getSubjectParentId();
+        String subjectId = webCourseQuery.getSubjectId();
+        String buyCountSort = webCourseQuery.getBuyCountSort();
+        String priceSort = webCourseQuery.getPriceSort();
+        String publishTimeSort = webCourseQuery.getPublishTimeSort();
+
+        if (!StringUtils.isEmpty(subjectParentId)){
+            queryWrapper.eq("subject_parent_id",subjectParentId);
+        }
+
+        if (!StringUtils.isEmpty(subjectId)){
+            queryWrapper.eq("subject_id",subjectId);
+        }
+
+        // 只要有值 倒序排列
+        if (!StringUtils.isEmpty(buyCountSort)) {
+            queryWrapper.orderByDesc("buy_count");
+        }
+
+        // 时间 倒叙排列
+        if (!StringUtils.isEmpty(publishTimeSort)) {
+            queryWrapper.orderByDesc("publish_time");
+        }
+
+        // 价格 1 正序  2 倒叙
+        if (!StringUtils.isEmpty(priceSort)) {
+            if ( "1".equals(priceSort)){
+                queryWrapper.orderByAsc("price");
+            } else {
+                queryWrapper.orderByDesc("price");
+            }
+        }
+
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public WebCourseVo getWebCourseVoById(String id) {
+
+        // 增加浏览量
+//        Course course = baseMapper.selectById(id);
+//        course.setViewCount(course.getViewCount() + 1);
+//        baseMapper.updateById(course);
+        // 优化
+        baseMapper.updateViewCount(id);
+
+        return baseMapper.selectWebCourseVoById(id);
+
     }
 
 

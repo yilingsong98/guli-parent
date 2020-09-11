@@ -45,6 +45,16 @@ public class ApiTeacherController {
         return R.ok().data("items",list);
     }
 
+    // 获取讲师信息 和 课程列表
+    @ApiOperation("获取讲师信息和课程列表") // @ApiOperation 写在方法上
+    @GetMapping("get/{id}")
+    public R get(@ApiParam(value = "讲师ID", required = true)
+                 @PathVariable String id) {
+
+        Map<String, Object> map = teacherService.selectTeacherInfoById(id);
+        return R.ok().data(map);
+    }
+
 
 }
 

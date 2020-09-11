@@ -1,6 +1,7 @@
 package com.guli.service.vod.controller.admin;
 
 
+import com.aliyuncs.exceptions.ClientException;
 import com.guli.service.base.exception.GuliException;
 import com.guli.service.base.result.R;
 import com.guli.service.base.result.ResultCodeEnum;
@@ -66,7 +67,7 @@ public class MediaController {
     @DeleteMapping("remove")
     public R removeVideoByIdList(
             @ApiParam(value="阿里云视频id", required = true)
-            @RequestBody List<String> videoIdList) {
+            @RequestBody List<String> videoIdList) throws ClientException {
 
         videoService.removeVideoByIdList(videoIdList);
         return R.ok().message("删除视频成功");

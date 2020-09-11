@@ -5,16 +5,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.guli.service.base.result.R;
+import com.guli.service.edu.entity.Course;
 import com.guli.service.edu.entity.Teacher;
 import com.guli.service.edu.entity.query.TeacherQuery;
 import com.guli.service.edu.fegin.OssFileService;
+import com.guli.service.edu.mapper.CourseMapper;
 import com.guli.service.edu.mapper.TeacherMapper;
 import com.guli.service.edu.service.TeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import feign.QueryMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +35,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
 
     @Autowired
     private OssFileService ossFileService;
+
+    @Autowired
+    private CourseMapper courseMapper;
 
     @Override
     public IPage<Teacher> selectPage(Long page, Long limit, TeacherQuery teacherQuery) {
@@ -93,6 +100,25 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         }
 
         return false;
+    }
+
+    @Override
+    public Map<String, Object> selectTeacherInfoById(String id) {
+
+        Map<String,Object> map = new HashMap<>();
+
+        Teacher teacher = baseMapper.selectById(id);
+
+        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<>();
+        courseQueryWrapper.eq("teacher_id",id);
+
+        List<Course> courseList = courseMapper.selectList(courseQueryWrapper);
+
+        // 讲师的基本信息
+        map.put("teacher",teacher);
+        // 讲师的课程列表
+        map.put("courseList",courseList);
+        return map;
     }
 
 }
