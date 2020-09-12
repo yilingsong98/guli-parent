@@ -38,7 +38,7 @@ public class ApiSmsController {
             @ApiParam(value = "手机号",required = true)
             @PathVariable String mobile){
 
-        // 校验参数
+        // 校验参数（手机效验）
         if (StringUtils.isEmpty(mobile) || !FormUtils.isMobile(mobile)) {
             return R.setResult(ResultCodeEnum.LOGIN_PHONE_ERROR);
         }
@@ -51,7 +51,7 @@ public class ApiSmsController {
             redisTemplate.opsForValue().set("checkCode::"+mobile,checkCode,5, TimeUnit.MINUTES);
 
             return R.ok().message("短信发送成功");
-        } catch (ClientException e) {
+        } catch (Exception e) {
             log.error("短信发送失败！业务失败");
             throw new GuliException(ResultCodeEnum.SMS_SEND_ERROR);
         }
