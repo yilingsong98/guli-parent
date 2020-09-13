@@ -115,6 +115,11 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
+        <!--jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
 
     </dependencies>
 </project>

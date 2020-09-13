@@ -3,8 +3,11 @@ package com.guli.service.ucenter.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.guli.common.util.MD5;
 import com.guli.service.base.exception.GuliException;
+import com.guli.service.base.helper.JwtHelper;
+import com.guli.service.base.helper.JwtInfo;
 import com.guli.service.base.result.ResultCodeEnum;
 import com.guli.service.ucenter.entity.Member;
+import com.guli.service.ucenter.entity.form.LoginForm;
 import com.guli.service.ucenter.entity.form.RegisterForm;
 import com.guli.service.ucenter.mapper.MemberMapper;
 import com.guli.service.ucenter.service.MemberService;
@@ -44,5 +47,34 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         member.setDisabled(false);
 
         baseMapper.insert(member);
+    }
+
+    // 登录
+    @Override
+    public String login(LoginForm loginForm) {
+
+        String mobile = loginForm.getMobile();
+        String password = loginForm.getPassword();
+
+        // 校验手机号
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("mobile",mobile);
+        // 是否已经存在
+        Member member = baseMapper.selectOne(queryWrapper);
+        if (member == null){
+            throw new GuliException(ResultCodeEnum.LOGIN_MOBILE_ERROR);
+        }
+        // 校验密码
+        if (!MD5.encrypt(password).equals(member.getPassword())){
+            throw new GuliException(ResultCodeEnum.LOGIN_PASSWORD_ERROR);
+        }
+        // 是否被禁用
+        if (member.getDisabled()) {
+            throw new GuliException(ResultCodeEnum.LOGIN_DISABLED_ERROR);
+        }
+        // 登录成功，生成jwt
+        JwtInfo jwtInfo = new JwtInfo(member.getId(), member.getNickname(), member.getAvatar());
+        String token = JwtHelper.createToken(jwtInfo);
+        return token;
     }
 }

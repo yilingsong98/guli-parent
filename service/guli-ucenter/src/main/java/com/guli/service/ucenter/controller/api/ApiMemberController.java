@@ -4,6 +4,7 @@ package com.guli.service.ucenter.controller.api;
 import com.guli.common.util.FormUtils;
 import com.guli.service.base.result.R;
 import com.guli.service.base.result.ResultCodeEnum;
+import com.guli.service.ucenter.entity.form.LoginForm;
 import com.guli.service.ucenter.entity.form.RegisterForm;
 import com.guli.service.ucenter.service.MemberService;
 import io.swagger.annotations.Api;
@@ -63,4 +64,25 @@ public class ApiMemberController {
         memberService.register(registerForm);
         return R.ok().message("注册成功");
     }
+
+
+    // 登录接口
+    @ApiOperation("会员登录")
+    @PostMapping("login")
+    public R login(@ApiParam(value = "登录表单",required = true)
+                   @RequestBody LoginForm loginForm){
+
+        String mobile = loginForm.getMobile();
+        String password = loginForm.getPassword();
+
+        // 参数校验 电话 密码 不能为空
+        if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)
+                || !FormUtils.isMobile(mobile)){
+            return R.setResult(ResultCodeEnum.PARAM_ERROR);
+        }
+
+        String token = memberService.login(loginForm);
+        return R.ok().data("token",token).message("登录成功");
+    }
+
 }

@@ -2,6 +2,7 @@ package com.guli.service.ucenter.service;
 
 import com.guli.service.ucenter.entity.Member;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.guli.service.ucenter.entity.form.LoginForm;
 import com.guli.service.ucenter.entity.form.RegisterForm;
 
 /**
@@ -16,4 +17,5 @@ public interface MemberService extends IService<Member> {
 
     void register(RegisterForm registerForm);
 
+    String login(LoginForm loginForm);
 }
