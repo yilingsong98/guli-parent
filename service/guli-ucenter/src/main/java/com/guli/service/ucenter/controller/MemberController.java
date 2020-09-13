@@ -1,6 +1,8 @@
 package com.guli.service.ucenter.controller;
 
 
+import com.guli.service.base.result.R;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -17,5 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ucenter/member")
 public class MemberController {
 
+    @GetMapping("test")
+    public R test(){
+        return R.ok().message("test");
+    }
 }
 
