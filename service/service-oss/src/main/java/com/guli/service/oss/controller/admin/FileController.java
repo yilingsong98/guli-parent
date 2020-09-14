@@ -20,7 +20,7 @@ import java.io.InputStream;
 
 @Slf4j
 @Api(tags = "阿里云文件管理")
-@CrossOrigin // 跨域
+//@CrossOrigin // 跨域
 @RequestMapping("/admin/oss/file")
 @RestController
 public class FileController {

@@ -29,7 +29,7 @@ import java.util.Map;
  */
 
 
-@CrossOrigin // 允许跨域请求策略
+//@CrossOrigin // 允许跨域请求策略
 @Slf4j
 @Api(tags = "讲师管理") // @Api 写在类头上
 @RestController

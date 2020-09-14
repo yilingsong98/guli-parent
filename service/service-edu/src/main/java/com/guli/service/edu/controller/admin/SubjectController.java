@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @Api(tags = "课程类别管理")
 @RestController
-@CrossOrigin // 跨域
+//@CrossOrigin // 跨域
 @RequestMapping("/admin/edu/subject")
 public class SubjectController {
 

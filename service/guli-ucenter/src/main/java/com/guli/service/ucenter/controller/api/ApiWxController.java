@@ -26,7 +26,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.UUID;
 
-@CrossOrigin
+//@CrossOrigin
 @Controller//注意这里没有配置 @RestController
 @RequestMapping("/api/ucenter/wx")
 @Slf4j
@@ -201,6 +201,10 @@ public class ApiWxController {
         jwtInfo.setAvatar(member.getAvatar());
         String jwt = JwtHelper.createToken(jwtInfo);
         System.out.println("jwt = " + jwt);
-        return "";
+
+        // 将jwt写入cookie （前后端cookie跨域，无法写入前端）
+        // 如果 后端 和 前端 部署在同一个一级域名下 则cookie可以跨域（前后端cookie写入顶级域名下）
+
+        return "redirect:http://localhost:3000?token=" + jwt;
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@CrossOrigin //解决跨域问题
+//@CrossOrigin //解决跨域问题
 @Api(tags = "广告推荐")
 @RestController
 @RequestMapping("/api/cms/ad")

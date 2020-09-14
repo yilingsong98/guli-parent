@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-08-25
  */
 @Api(tags = "课程管理")
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/admin/edu/course")
 public class CourseController {

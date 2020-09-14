@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @Api(tags = "阿里云视频管理")
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/admin/vod/media")
 @Slf4j

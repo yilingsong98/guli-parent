@@ -2,6 +2,8 @@ package com.guli.service.ucenter.controller.api;
 
 
 import com.guli.common.util.FormUtils;
+import com.guli.service.base.helper.JwtHelper;
+import com.guli.service.base.helper.JwtInfo;
 import com.guli.service.base.result.R;
 import com.guli.service.base.result.ResultCodeEnum;
 import com.guli.service.ucenter.entity.form.LoginForm;
@@ -16,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Api(tags = "会员管理")
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/api/ucenter/member")
 @Slf4j
@@ -83,6 +87,19 @@ public class ApiMemberController {
 
         String token = memberService.login(loginForm);
         return R.ok().data("token",token).message("登录成功");
+    }
+
+
+    /*
+        加入微服务网管后，所有auth路径访问的接口 都需要用户登录后 才能被访问
+        网关 会对所有 auth路径下的接口进行拦截 并对这些接口进行校验
+        从 request 中 获取 header  从header中获取 jwt 校验jwt的有效性
+     */
+    @ApiOperation("根据token获取登录信息")
+    @GetMapping("auth/get-login-info")
+    public R getLoginInfo(HttpServletRequest request){
+        JwtInfo jwtInfo = JwtHelper.getJwtInfo(request);
+        return R.ok().data("userInfo",jwtInfo);
     }
 
 }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * @author donkey
  * @since 2020-08-25
  */
-@CrossOrigin
+//@CrossOrigin
 @Api(tags = "课时管理")
 @RestController
 @RequestMapping("/admin/edu/video")

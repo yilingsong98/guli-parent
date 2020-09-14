@@ -22,7 +22,7 @@ public class JwtHelper {
     //过期时间，毫秒，24小时
     private static long tokenExpiration = 24*60*60*1000;
     //秘钥
-    private static String tokenSignKey = "123456";
+    private static String tokenSignKey = "donkey98zwx";
 
     private static Key getKeyInstance(){
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
