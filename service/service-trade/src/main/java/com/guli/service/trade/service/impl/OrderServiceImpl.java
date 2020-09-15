@@ -94,9 +94,41 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 订单的其他信息
         order.setStatus(0); // 未支付
         order.setPayType(1); // 微信支付
-        order.setTotalFee(1000L); // 订单总价格 单位分
+        //order.setTotalFee(1000L); // 订单总价格 单位分
 
         baseMapper.insert(order);
         return order.getId();
+    }
+
+    @Override
+    public Order getOrderById(String orderId, String memberId) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",orderId).eq("member_id",memberId);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public Boolean isBuyByCourseId(String courseId, String memberId) {
+
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("course_id",courseId)
+                .eq("member_id",memberId)
+                .eq("status",1);
+        Integer count = baseMapper.selectCount(queryWrapper);
+        return count.intValue() > 0;
+    }
+
+
+    /**
+     * 根据订单号查询订单
+     * @param orderNo
+     * @return
+     */
+    @Override
+    public Order getOrderByOrderNo(String orderNo) {
+
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_no", orderNo);
+        return baseMapper.selectOne(queryWrapper);
     }
 }
