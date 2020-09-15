@@ -3,6 +3,7 @@ package com.guli.service.edu.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.guli.service.base.dto.CourseDto;
 import com.guli.service.edu.entity.Course;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.guli.service.edu.entity.form.CourseInfoForm;
@@ -36,4 +37,6 @@ public interface CourseMapper extends BaseMapper<Course> {
     WebCourseVo selectWebCourseVoById(String courseId);
 
     void updateViewCount(String id);
+
+    CourseDto selectCourseDtoById(String courseId);
 }

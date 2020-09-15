@@ -1,5 +1,6 @@
 package com.guli.service.edu.controller.api;
 
+import com.guli.service.base.dto.CourseDto;
 import com.guli.service.base.result.R;
 import com.guli.service.edu.entity.Course;
 import com.guli.service.edu.entity.query.WebCourseQuery;
@@ -51,6 +52,13 @@ public class ApiCourseController {
         List<ChapterVo> chapterVoList = chapterService.nestedListById(id);
 
         return R.ok().data("course",webCourseVo).data("chapterVoList",chapterVoList);
+    }
+
+    @ApiOperation("根据课程id查询课程信息")
+    @GetMapping("get-course-dto/{courseId}")
+    public R getCourseDtoById(@PathVariable String courseId){
+        CourseDto courseDto = courseService.getCourseDtoById(courseId);
+        return R.ok().data("courseDto",courseDto);
     }
 
 

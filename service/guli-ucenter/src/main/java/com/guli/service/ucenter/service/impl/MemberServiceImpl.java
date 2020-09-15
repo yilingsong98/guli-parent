@@ -2,6 +2,7 @@ package com.guli.service.ucenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.guli.common.util.MD5;
+import com.guli.service.base.dto.MemberDto;
 import com.guli.service.base.exception.GuliException;
 import com.guli.service.base.helper.JwtHelper;
 import com.guli.service.base.helper.JwtInfo;
@@ -12,6 +13,7 @@ import com.guli.service.ucenter.entity.form.RegisterForm;
 import com.guli.service.ucenter.mapper.MemberMapper;
 import com.guli.service.ucenter.service.MemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -85,5 +87,14 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         queryWrapper.eq("openid",openid);
 
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public MemberDto getMemberDtoById(String memberId) {
+
+        Member member = baseMapper.selectById(memberId);
+        MemberDto memberDto = new MemberDto();
+        BeanUtils.copyProperties(member,memberDto);
+        return memberDto;
     }
 }

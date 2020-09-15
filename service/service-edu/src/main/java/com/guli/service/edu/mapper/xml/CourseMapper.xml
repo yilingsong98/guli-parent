@@ -85,6 +85,19 @@
     WHERE
     c.id = #{id}
     </select>
+    <select id="selectCourseDtoById" resultType="com.guli.service.base.dto.CourseDto">
+        SELECT
+        c.id,
+        c.title,
+        c.price,
+        c.cover,
+        t.name AS teacherName
+
+        FROM edu_course c
+        LEFT join edu_teacher t ON c.teacher_id = t.id
+        WHERE c.id = #{id}
+
+    </select>
 
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.guli.service.ucenter.mapper;
 
+import com.guli.service.base.dto.MemberDto;
 import com.guli.service.ucenter.entity.Member;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

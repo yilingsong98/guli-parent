@@ -2,6 +2,7 @@ package com.guli.service.ucenter.controller.api;
 
 
 import com.guli.common.util.FormUtils;
+import com.guli.service.base.dto.MemberDto;
 import com.guli.service.base.helper.JwtHelper;
 import com.guli.service.base.helper.JwtInfo;
 import com.guli.service.base.result.R;
@@ -100,6 +101,16 @@ public class ApiMemberController {
     public R getLoginInfo(HttpServletRequest request){
         JwtInfo jwtInfo = JwtHelper.getJwtInfo(request);
         return R.ok().data("userInfo",jwtInfo);
+    }
+
+
+    @ApiOperation("根据memberId获取用户信息")
+    @GetMapping("get-member-dto/{memberId}")
+    public R getMemberDtoById(
+            @ApiParam(value = "用户id",required = true)
+            @PathVariable String memberId){
+        MemberDto memberDto = memberService.getMemberDtoById(memberId);
+        return R.ok().data("memberDto",memberDto);
     }
 
 }

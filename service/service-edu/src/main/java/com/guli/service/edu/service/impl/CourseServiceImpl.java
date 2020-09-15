@@ -3,6 +3,7 @@ package com.guli.service.edu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.guli.service.base.dto.CourseDto;
 import com.guli.service.edu.entity.*;
 import com.guli.service.edu.entity.form.CourseInfoForm;
 import com.guli.service.edu.entity.query.CourseQuery;
@@ -245,6 +246,12 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
         return baseMapper.selectWebCourseVoById(id);
 
+    }
+
+    @Override
+    public CourseDto getCourseDtoById(String courseId) {
+
+        return baseMapper.selectCourseDtoById(courseId);
     }
 
 
