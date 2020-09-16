@@ -29,4 +29,11 @@ public interface OrderService extends IService<Order> {
     Order getOrderByOrderNo(String orderNo);
 
     void updateOrderStatus(Map<String, String> notifyMap);
+
+    /**
+     * 查询订单状态
+     * @param orderNo
+     * @return
+     */
+    boolean queryPayStatus(String orderNo);
 }

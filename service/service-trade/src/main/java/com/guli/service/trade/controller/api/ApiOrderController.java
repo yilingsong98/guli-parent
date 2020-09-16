@@ -3,6 +3,7 @@ package com.guli.service.trade.controller.api;
 
 import com.guli.service.base.helper.JwtHelper;
 import com.guli.service.base.result.R;
+import com.guli.service.base.result.ResultCodeEnum;
 import com.guli.service.trade.entity.Order;
 import com.guli.service.trade.service.OrderService;
 import io.swagger.annotations.Api;
@@ -63,6 +64,16 @@ public class ApiOrderController {
         String memberId = JwtHelper.getId(request);
         Boolean isBuy = orderService.isBuyByCourseId(courseId, memberId);
         return R.ok().data("isBuy", isBuy);
+    }
+
+    @ApiOperation("根据订单号查询订单支付状态")
+    @GetMapping("/query-pay-status/{orderNo}")
+    public R queryPayStatus(@PathVariable String orderNo) {
+        boolean result = orderService.queryPayStatus(orderNo);
+        if (result) {//支付成功
+            return R.ok().message("支付成功");
+        }
+        return R.setResult(ResultCodeEnum.PAY_RUN);//支付中
     }
 }
 

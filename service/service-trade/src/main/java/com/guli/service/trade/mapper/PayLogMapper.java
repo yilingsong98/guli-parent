@@ -2,6 +2,7 @@ package com.guli.service.trade.mapper;
 
 import com.guli.service.trade.entity.PayLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author donkey
  * @since 2020-09-14
  */
+@Repository
 public interface PayLogMapper extends BaseMapper<PayLog> {
 
 }

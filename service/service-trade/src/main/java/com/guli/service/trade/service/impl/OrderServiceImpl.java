@@ -158,4 +158,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         payLog.setAttr(new Gson().toJson(notifyMap));
         payLogMapper.insert(payLog);
     }
+
+    /**
+     * 查询订单状态
+     * @param orderNo
+     * @return
+     */
+    @Override
+    public boolean queryPayStatus(String orderNo) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_no",orderNo);
+        Order order = baseMapper.selectOne(queryWrapper);
+        return order.getStatus() == 1;
+    }
+
+
 }
