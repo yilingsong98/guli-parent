@@ -76,6 +76,7 @@ public class ApiMemberController {
     @PostMapping("login")
     public R login(@ApiParam(value = "登录表单",required = true)
                    @RequestBody LoginForm loginForm){
+                   //LoginForm loginForm){
 
         String mobile = loginForm.getMobile();
         String password = loginForm.getPassword();

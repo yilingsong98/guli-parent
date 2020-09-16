@@ -2,13 +2,16 @@ package com.guli.service.trade.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.guli.service.base.dto.CourseDto;
 import com.guli.service.base.dto.MemberDto;
 import com.guli.service.base.result.R;
 import com.guli.service.trade.entity.Order;
+import com.guli.service.trade.entity.PayLog;
 import com.guli.service.trade.feign.EduCourseService;
 import com.guli.service.trade.feign.UcenterMemberService;
 import com.guli.service.trade.mapper.OrderMapper;
+import com.guli.service.trade.mapper.PayLogMapper;
 import com.guli.service.trade.service.OrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.guli.service.trade.utils.OrderNoUtils;
@@ -16,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,6 +38,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private UcenterMemberService ucenterMemberService;
+
+    @Autowired
+    private PayLogMapper payLogMapper;
 
 
     @Override
@@ -130,5 +138,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_no", orderNo);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public void updateOrderStatus(Map<String, String> notifyMap) {
+        // 取出订单号
+        String orderNo = notifyMap.get("out_trade_no");
+        // 修改订单状态
+        baseMapper.updateStatusByOrderNo(orderNo);
+
+        // 记录支付日志
+        PayLog payLog = new PayLog();
+        payLog.setOrderNo(orderNo);
+        payLog.setPayType(1);
+        payLog.setPayTime(new Date());
+        payLog.setTotalFee(Long.parseLong(notifyMap.get("total_fee")));
+        payLog.setTradeState(notifyMap.get("result_code"));
+        payLog.setTransactionId(notifyMap.get("transaction_id"));
+        payLog.setAttr(new Gson().toJson(notifyMap));
+        payLogMapper.insert(payLog);
     }
 }

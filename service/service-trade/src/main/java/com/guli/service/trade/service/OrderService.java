@@ -3,6 +3,8 @@ package com.guli.service.trade.service;
 import com.guli.service.trade.entity.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
+
 /**
  * <p>
  * 订单 服务类
@@ -25,4 +27,6 @@ public interface OrderService extends IService<Order> {
      * @return
      */
     Order getOrderByOrderNo(String orderNo);
+
+    void updateOrderStatus(Map<String, String> notifyMap);
 }
